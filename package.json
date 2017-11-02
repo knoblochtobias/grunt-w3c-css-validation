@@ -1,20 +1,41 @@
 {
-  "name": "gulp-w3c-css",
-  "version": "1.0.2",
-  "description": "A Gulp plugin for CSS Validation",
-  "main": "index.js",
-  "scripts": {
-    "test": "mocha --reporter spec",
-    "tag": "git tag v$npm_package_version",
-    "do:publish": "git push && git push --tags && npm publish"
+  "name": "grunt-w3c-css-validation",
+  "description": "CSS Validation using W3C Validation Service",
+  "version": "0.1.0",
+  "homepage": "https://github.com/knoblochtobias/grunt-w3c-css-validation",
+  "author": {
+    "name": "Tobias Knobloch",
+    "email": "git@tobias-knobloch.de"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gchudnov/gulp-w3c-css.git"
+    "url": "git://github.com/knoblochtobias/grunt-w3c-css-validation.git"
+  },
+  "bugs": {
+    "url": "https://github.com/knoblochtobias/grunt-w3c-css-validation/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/knoblochtobias/grunt-w3c-css-validation/blob/master/LICENSE-MIT"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt": "~0.4.5",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-nodeunit": "^0.3.3",
+    "jshint": "^2.9.5"
   },
   "keywords": [
-    "gulp",
-    "gulpplugin",
+    "grunt",
+    "gruntplugin",
     "css",
     "stylesheet",
     "styles",
@@ -22,22 +43,8 @@
     "validate",
     "lint"
   ],
-  "author": "Grigoriy Chudnov <g.chudnov@gmail.com> (https://github.com/gchudnov)",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/gchudnov/gulp-w3c-css/issues"
-  },
-  "homepage": "https://github.com/gchudnov/gulp-w3c-css",
   "dependencies": {
-    "gulp-util": "^3.0.8",
     "lodash.assign": "^4.2.0",
-    "through2": "^2.0.3",
     "w3c-css": "^2.0.1"
-  },
-  "devDependencies": {
-    "gulp": "^3.9.1",
-    "mocha": "^4.0.1",
-    "should": "^13.1.2",
-    "stream-assert": "^2.0.3"
   }
 }

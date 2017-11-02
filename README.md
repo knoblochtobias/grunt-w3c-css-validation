@@ -1,71 +1,90 @@
-# gulp-w3c-css [![Build Status](https://travis-ci.org/gchudnov/gulp-w3c-css.svg?branch=master)](https://travis-ci.org/gchudnov/gulp-w3c-css)
-A Gulp plugin for CSS Validation using W3C CSS Validation Service
+# grunt-w3c-css-validation
 
-Depends on [w3c-css](https://github.com/gchudnov/w3c-css) package.
+> CSS Validation using W3C Validation Service
 
-## Installation
-```bash
-$ npm install gulp-w3c-css
+## Getting Started
+This plugin requires Grunt `~0.4.5`
+
+If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
+
+```shell
+npm install grunt-w3c-css-validation --save-dev
 ```
 
+Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
 
-## Usage
-
-Validate all `*.css` files in the `/css` directory and write results to the `/build` directory.
-If there are no errors or warnings in a file, the resulting file will be empty. Otherwise the file will contain errors and warnings as JSON object:
-```javascript
-{ "errors":[ /* ... */ ],"warnings":[ /* ... */ ] }
+```js
+grunt.loadNpmTasks('grunt-w3c-css-validation');
 ```
 
-```javascript
-var validate = require('gulp-w3c-css');
+## The "w3c_css_validation" task
 
-var path = require('path');
-var gulp = require('gulp');
-var gutil = require('gulp-util');
+### Overview
+In your project's Gruntfile, add a section named `w3c_css_validation` to the data object passed into `grunt.initConfig()`.
 
-var srcPath = path.join(__dirname, './css/*.css');
-var dstPath = path.join(__dirname, './build');
-
-gulp.src(srcPath)
-  .pipe(validate())
-  .pipe(gulp.dest(dstPath));
+```js
+grunt.initConfig({
+  w3c_css_validation: {
+    options: {
+      // Task-specific options go here.
+    },
+    your_target: {
+      // Target-specific file lists and/or options go here.
+    },
+  },
+});
 ```
 
-OR
+### Options
 
-```javascript
-var validate = require('gulp-w3c-css');
+* `logfile` - the filepath to the log file. `false` to deactivate logfile. Default is `w3c_css_validation.json` 
 
-var path = require('path');
-var gulp = require('gulp');
-var gutil = require('gulp-util');
+Options from w3c-css: 
+(see https://raw.githubusercontent.com/gchudnov/w3c-css/master/README.md)
 
-var srcPath = path.join(__dirname, './css/*.css');
-
-gulp.src(srcPath)
-  .pipe(validate())
-  .pipe(gutil.buffer(function(err, files) {
-    // err - an error encountered
-    // files - array of validation results
-    // files[i].contents is empty if there are no errors or warnings found
-  }));
-```
-
-
-## Arguments
-The first argument to the validate function can be an options object with the following [properties](https://github.com/gchudnov/w3c-css#arguments):
-* `sleep` - time to sleep _between_ the requests, milliseconds [default: 1500 -- 1.5 seconds]. This option is required if you intend to validate several CSS files at once. Make sure its value [is greater than 1 second](http://jigsaw.w3.org/css-validator/manual.html). Otherwise, consider using a [Private CSS Validator](https://github.com/gchudnov/w3c-css#private-css-validator) that doesn't have any request-frequency limitations. 
+* `uri` || `url` - the URL of the document to validate
+* `text` - CSS document or fragment to validate. Only CSS-content is allowed
 * `profile` - the CSS profile used for the validation: `css1, css2, css21, css3` [default: 'css3']
-* `usermedium` - the medium used for the validation: `screen, print, ...` [default: 'all']
-* `server` - the "IP:PORT" string or the [URL object](https://nodejs.org/api/url.html) of a custom validation server, e.g, `'172.17.0.2:8080'` or `{ host: '172.17.0.2:8080' }`.
+* `usermedium` - the [medium](http://www.w3.org/TR/CSS2/media.html) used for the validation: `screen, print, ...` [default: 'all', which is suitable for all devices]
+* `warning` - the warning level, "no" for no warnings, 0 for less warnings, 1or 2 for more warnings [default: 2] 
+* `server` - the "IP:PORT" string or the [URL object](https://nodejs.org/api/url.html) of a custom validation server, e.g, `'172.17.0.2:8080'` or `{ host: '172.17.0.2:8080' }`
+
+### Output
+
+## CSS Errors & Warnings
+`errors` and `warnings` reported by the library are the arrays of following objects:
+
+```javascript
+{
+  line: '...',      // refers to the line where the error or warning was detected
+  message: '...'    // the error or warning message
+
+  // additional properties:
+  errorType: '...', // type of the error
+  context: '...',   // context of the error
+  level: '...',     // the level of the warning
+  uri: '...'        // URL of the stylesheet
+}
+```
+
+### Usage Examples
+
+```js
+grunt.initConfig({
+  w3c_css_validation: {
+    target: {
+      options: {
+        logfile: './tmp/w3c_css_validation.json',
+      },
+      src: ['test/css/*.css'],
+    }
+  },
+});
+```
 
 
-## Contact
+## Contributing
+In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
-[Grigoriy Chudnov] (mailto:g.chudnov@gmail.com)
-
-
-## License
-
-Distributed under the [The MIT License (MIT)](https://github.com/gchudnov/w3c-css/blob/master/LICENSE).
+## Release History
+0.1.0 initial version
